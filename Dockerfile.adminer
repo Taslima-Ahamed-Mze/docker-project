@@ -1,0 +1,8 @@
+FROM adminer:latest
+
+LABEL maintainer="Your Name <your.email@example.com>"
+
+ADD plugins/ /var/www/html/plugins/
+ADD my_plugin.ini /var/www/html/
+
+EXPOSE 8080
