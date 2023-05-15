@@ -5,21 +5,14 @@ services:
     build: ./adminer
     ports:
       - 8081:8080
-    command: sleep infinity
   
   web:
    build: ./symfony
    ports:
       - "8080:9000"
    volumes:
-      - '.:/app'
-   environment:
-      - SYMFONY_PROJECT_NAME=myapp
-      - POSTGRES_DB=database
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
-   depends_on:
-      - postgres
+      - ./symfony:/var/www/html
+    
 
   
  
