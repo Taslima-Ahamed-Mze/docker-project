@@ -1,6 +1,5 @@
 version: "3"
 services:
-  
   adminer:
     build: ./adminer
     ports:
@@ -11,8 +10,20 @@ services:
    ports:
       - "8080:9000"
    volumes:
-      - ./symfony:/var/www/html
-    
+      - '.:/app'
+   environment:
+      - SYMFONY_PROJECT_NAME=myapp
+
+  postgres:
+    build: ./postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
 
   
  
