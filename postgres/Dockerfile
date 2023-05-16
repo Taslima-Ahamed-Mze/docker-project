@@ -1,14 +1,20 @@
 FROM alpine:latest
 
-ENV POSTGRES_DB db 
-ENV POSTGRES_USER postgres
-ENV POSTGRES_PASSWORD postgres
+RUN apk update && apk add postgresql
+RUN mkdir -p /run/postgresql && \
+    chown -R postgres:postgres /run/postgresql && \
+    chmod 2777 /run/postgresql
 
-# Installez PostgreSQL et ses dépendances
-RUN apk add --no-cache postgresql postgresql-contrib postgresql15-jit
+RUN mkdir -p /usr/local/pgsql/data && \
+    chown -R postgres:postgres /usr/local/pgsql/data && \
+    chmod 700 /usr/local/pgsql/data && \
+    su -c "initdb -D /usr/local/pgsql/data" postgres
 
-# Exposez le port PostgreSQL (par défaut : 5432)
+ENV PGDATA=/usr/local/pgsql/data
+ENV POSTGRES_USER=myuser
+ENV POSTGRES_PASSWORD=mypassword
+ENV POSTGRES_DB=mydatabase
+
 EXPOSE 5432
 
-# Démarrez PostgreSQL automatiquement lorsque le conteneur démarre
-CMD ["postgres"]
+CMD ["postgres", "-D", "/usr/local/pgsql/data"] 

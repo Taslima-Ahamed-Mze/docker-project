@@ -1,10 +1,6 @@
 version: "3"
 services:
-  adminer:
-    build: ./adminer
-    ports:
-      - 8081:8080
-  
+ 
   web:
    build: ./symfony
    ports:
@@ -13,17 +9,29 @@ services:
       - '.:/app'
    environment:
       - SYMFONY_PROJECT_NAME=myapp
+      - DATABASE_URL=postgres://myuser:mypassword@db:5433/mydatabase
 
-  postgres:
+  db:
     build: ./postgres
+    container_name: container_postgres
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    user: postgres
     environment:
-      - POSTGRES_DB=database
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
     ports:
       - 5432:5432
+
+  adminer:
+    build: ./adminer
+    ports:
+      - 8081:8080
+
+volumes:
+  pgdata:
+    
 
   
  
