@@ -25,7 +25,8 @@ RUN apk add --no-cache php8 \
     php8-tokenizer \
     php8-xml \ 
     php8-xmlwriter \
-    php8-zip
+    php8-zip \
+    php8-pdo_pgsql
 # COMPOSER
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \ 
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
