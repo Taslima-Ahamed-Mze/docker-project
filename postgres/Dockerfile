@@ -1,20 +1,18 @@
-FROM alpine:latest
+FROM alpine:3.14
 
 RUN apk update && apk add postgresql
-RUN mkdir -p /run/postgresql && \
-    chown -R postgres:postgres /run/postgresql && \
-    chmod 2777 /run/postgresql
 
-RUN mkdir -p /usr/local/pgsql/data && \
-    chown -R postgres:postgres /usr/local/pgsql/data && \
-    chmod 700 /usr/local/pgsql/data && \
-    su -c "initdb -D /usr/local/pgsql/data" postgres
+ENV PGDATA /var/lib/postgresql/data
 
-ENV PGDATA=/usr/local/pgsql/data
-ENV POSTGRES_USER=myuser
-ENV POSTGRES_PASSWORD=mypassword
-ENV POSTGRES_DB=mydatabase
+RUN mkdir /run/postgresql && chown -R postgres:postgres /run/postgresql && \
+    mkdir ${PGDATA} && chown -R postgres:postgres ${PGDATA}
 
-EXPOSE 5432
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
-CMD ["postgres", "-D", "/usr/local/pgsql/data"] 
+USER postgres
+
+RUN initdb -D ${PGDATA}
+
+CMD ["postgres", "-D", "/var/lib/postgresql/data"]

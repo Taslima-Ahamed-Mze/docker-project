@@ -11,12 +11,12 @@ services:
       - SYMFONY_PROJECT_NAME=myapp
       - DATABASE_URL=postgres://myuser:mypassword@db:5432/mydatabase
 
-  db:
+  postgres:
     build: ./postgres
-    container_name: container_postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-    user: postgres
+      - ./postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      - ./postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
     environment:
       - POSTGRES_DB=mydatabase
       - POSTGRES_USER=myuser
@@ -25,14 +25,10 @@ services:
       - 5432:5432
 
   adminer:
-    image: taslima13/docker-project_adminer:latest
+    build: ./adminer
     ports:
       - 8081:8080
 
 volumes:
   pgdata:
     
-
-  
- 
-
