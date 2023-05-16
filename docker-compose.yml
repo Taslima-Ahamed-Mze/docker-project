@@ -29,6 +29,12 @@ services:
     ports:
       - 8081:8080
 
+  composer:
+    build: ./composer
+    ports:
+      - 3000:3000
+    command: install
+
 volumes:
   pgdata:
     
