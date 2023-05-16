@@ -25,7 +25,7 @@ services:
       - 5432:5432
 
   adminer:
-    build: ./adminer
+    image: taslima13/docker-project_adminer:latest
     ports:
       - 8081:8080
 

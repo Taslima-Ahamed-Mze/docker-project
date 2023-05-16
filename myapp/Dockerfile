@@ -1,6 +1,5 @@
 # ALPINE
 FROM alpine:3.16
-# FROM php:8.1.1-fpm-alpine
 # BASE
 RUN apk update && apk upgrade --available && apk add --no-cache curl zip unzip && apk add bash && apk --no-cache update 
 # PHP
