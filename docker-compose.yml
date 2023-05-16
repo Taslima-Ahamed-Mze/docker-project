@@ -9,7 +9,7 @@ services:
       - '.:/app'
    environment:
       - SYMFONY_PROJECT_NAME=myapp
-      - DATABASE_URL=postgres://myuser:mypassword@db:5432/mydatabase
+      - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/mydatabase
 
   postgres:
     build: ./postgres
@@ -33,7 +33,7 @@ services:
     build: ./composer
     ports:
       - 3000:3000
-    command: install
+    entrypoint: composer install
 
 volumes:
   pgdata:
